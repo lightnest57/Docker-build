@@ -2,7 +2,7 @@ name: Docker Build
 
 on:
   push:
-    branches: [ master ]
+    branches: [ kernel-build ]
   workflow_dispatch:
 
 jobs:
@@ -35,7 +35,7 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/builder:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/builder:kernel
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

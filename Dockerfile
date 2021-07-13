@@ -1,4 +1,4 @@
-FROM ubuntu:focal
+FROM ubuntu:hirsute
 LABEL maintainer="GeoPD <geoemmanuelpd2001@gmail.com>"
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -13,26 +13,7 @@ RUN apt-get -yqq update \
     && TZ=Asia/Kolkata \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN git clone https://github.com/mirror/make \
-    && cd make && ./bootstrap && ./configure && make CFLAGS="-O3" \
-    && sudo install ./make /usr/bin/make
+RUN git clone --depth=1 https://github.com/mvaisakh/gcc-arm64 -b gcc-master /tmp/gcc
 
-RUN git clone https://github.com/ninja-build/ninja.git \
-    && cd ninja && git reset --hard 8fa4d05 && ./configure.py --bootstrap \
-    && sudo install ./ninja /usr/bin/ninja
-
-RUN git clone https://github.com/google/kati.git \
-    && cd kati && git reset --hard e1d6ee2 && make ckati \
-    && sudo install ./ckati /usr/bin/ckati
-
-RUN axel -a -n 10 https://github.com/facebook/zstd/releases/download/v1.5.0/zstd-1.5.0.tar.gz \
-    && tar xvzf zstd-1.5.0.tar.gz && cd zstd-1.5.0 \
-    && sudo make install
-
-RUN curl -O https://downloads.rclone.org/rclone-current-linux-amd64.zip \
-    && unzip rclone-current-linux-amd64.zip && cd rclone-*-linux-amd64 \
-    && sudo cp rclone /usr/bin/ && sudo chown root:root /usr/bin/rclone \
-    && sudo chmod 755 /usr/bin/rclone
-
-VOLUME ["/tmp/ccache", "/tmp/rom"]
+VOLUME ["/tmp/ccache", "/tmp/msm8953"]
 ENTRYPOINT ["/bin/bash"]
