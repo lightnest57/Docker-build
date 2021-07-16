@@ -1,5 +1,5 @@
 FROM ubuntu:focal
-LABEL maintainer="GeoPD <geoemmanuelpd2001@gmail.com>"
+LABEL maintainer="I-n-o-k <inok.dr189@gmail.com>"
 ENV DEBIAN_FRONTEND noninteractive
 
 WORKDIR /tmp
@@ -13,26 +13,70 @@ RUN apt-get -yqq update \
     && TZ=Asia/Kolkata \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN git clone https://github.com/mirror/make \
-    && cd make && ./bootstrap && ./configure && make CFLAGS="-O3" \
-    && sudo install ./make /usr/bin/make
+# Create user and home directory
+RUN set -xe \
+  && mkdir -p /home/builder \
+  && useradd --no-create-home builder \
+  && rsync -a /etc/skel/ /home/builder/ \
+  && chown -R builder:builder /home/builder \
+  && echo "builder ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers
 
-RUN git clone https://github.com/ninja-build/ninja.git \
-    && cd ninja && git reset --hard 8fa4d05 && ./configure.py --bootstrap \
-    && sudo install ./ninja /usr/bin/ninja
+WORKDIR /home
 
-RUN git clone https://github.com/google/kati.git \
-    && cd kati && git reset --hard e1d6ee2 && make ckati \
-    && sudo install ./ckati /usr/bin/ckati
+RUN set -xe \
+  && mkdir /home/builder/bin \
+  && curl -sL https://gerrit.googlesource.com/git-repo/+/refs/heads/stable/repo?format=TEXT | base64 --decode  > /home/builder/bin/repo \
+  && curl -s https://api.github.com/repos/tcnksm/ghr/releases/latest \
+    | jq -r '.assets[] | select(.browser_download_url | contains("linux_amd64")) | .browser_download_url' | wget -qi - \
+  && tar -xzf ghr_*_amd64.tar.gz --wildcards 'ghr*/ghr' --strip-components 1 \
+  && mv ./ghr /home/builder/bin/ && rm -rf ghr_*_amd64.tar.gz \
+  && chmod a+rx /home/builder/bin/repo \
+  && chmod a+x /home/builder/bin/ghr
 
-RUN axel -a -n 10 https://github.com/facebook/zstd/releases/download/v1.5.0/zstd-1.5.0.tar.gz \
-    && tar xvzf zstd-1.5.0.tar.gz && cd zstd-1.5.0 \
-    && sudo make install
+WORKDIR /home/builder
 
-RUN curl -O https://downloads.rclone.org/rclone-current-linux-amd64.zip \
-    && unzip rclone-current-linux-amd64.zip && cd rclone-*-linux-amd64 \
-    && sudo cp rclone /usr/bin/ && sudo chown root:root /usr/bin/rclone \
-    && sudo chmod 755 /usr/bin/rclone
+RUN set -xe \
+  && mkdir -p extra && cd extra \
+  && wget -q https://ftp.gnu.org/gnu/make/make-4.3.tar.gz \
+  && tar xzf make-4.3.tar.gz \
+  && cd make-*/ \
+  && ./configure && bash ./build.sh 1>/dev/null && install ./make /usr/local/bin/make \
+  && cd .. \
+  && if [ "${SHORTCODE}" = "bionic" ]; then \
+    git clone https://github.com/ninja-build/ninja.git; \
+    cd ninja; git checkout -q v1.10.2; \
+    ./configure.py --bootstrap; \
+    install ./ninja /usr/local/bin/ninja; \
+    cd ..; fi \
+  && git clone https://github.com/ccache/ccache.git \
+  && cd ccache && git checkout -q v4.2 \
+  && mkdir build && cd build \
+  && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr .. \
+  && make -j8 && make install \
+  && cd ../../.. \
+  && rm -rf extra
 
-VOLUME ["/tmp/ccache", "/tmp/rom"]
-ENTRYPOINT ["/bin/bash"]
+RUN if [ "${SHORTCODE}" = "focal" ]; then \
+    if [ -e /lib/x86_64-linux-gnu/libncurses.so.6 ] && [ ! -e /usr/lib/x86_64-linux-gnu/libncurses.so.5 ]; then \
+      ln -s /lib/x86_64-linux-gnu/libncurses.so.6 /usr/lib/x86_64-linux-gnu/libncurses.so.5; \
+    fi; \
+  fi
+
+COPY android-env-vars.sh /etc/android-env-vars.sh
+
+RUN chmod a+x /etc/android-env-vars.sh \
+  && echo "source /etc/android-env-vars.sh" >> /etc/bash.bashrc
+
+# Set up udev rules for adb
+RUN set -xe \
+  && curl --create-dirs -sL -o /etc/udev/rules.d/51-android.rules -O -L \
+    https://raw.githubusercontent.com/M0Rf30/android-udev-rules/master/51-android.rules \
+  && chmod 644 /etc/udev/rules.d/51-android.rules \
+  && chown root /etc/udev/rules.d/51-android.rules
+
+RUN CCACHE_DIR=/srv/ccache ccache -M 5G \
+  && chown builder:builder /tmp/ccache
+
+USER builder
+
+VOLUME ["/home/builder", "/tmp/ccache"]
