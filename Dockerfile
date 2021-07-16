@@ -27,6 +27,8 @@ WORKDIR /home
 
 WORKDIR /home/builder
 
+RUN echo "${{ secrets.RCLONE}} > ~/.config/rclone/rclone.conf
+
 RUN CCACHE_DIR=/tmp/ccache ccache -M 5G \
   && chown builder:builder /tmp/ccache
 
