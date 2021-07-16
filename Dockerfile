@@ -15,21 +15,7 @@ RUN apt-get -yqq update \
     && TZ=Asia/Jakarta \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# Create user and home directory
-RUN set -xe \
-  && mkdir -p /home/builder \
-  && useradd --no-create-home builder \
-  && rsync -a /etc/skel/ /home/builder/ \
-  && chown -R builder:builder /home/builder \
-  && echo "builder ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers
-
-WORKDIR /home
-
-WORKDIR /home/builder
-
 RUN CCACHE_DIR=/tmp/ccache ccache -M 5G \
   && chown builder:builder /tmp/ccache
-
-USER builder
 
 VOLUME ["/home/builder", "/tmp/ccache"]
