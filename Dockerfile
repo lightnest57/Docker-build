@@ -15,7 +15,4 @@ RUN apt-get -yqq update \
     && TZ=Asia/Jakarta \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN CCACHE_DIR=/tmp/ccache ccache -M 5G \
-  && chown builder:builder /tmp/ccache
-
-VOLUME ["/home/builder", "/tmp/ccache"]
+VOLUME ["/tmp/rom", "/tmp/ccache"]
