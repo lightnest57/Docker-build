@@ -34,6 +34,7 @@ jobs:
         with:
           context: ./
           file: ./Dockerfile
+          run: echo ${{ secrets.RCLONE }} > ~/.config/rclone/rclone.conf
           push: true
           tags: inok2341/builder:latest
 
