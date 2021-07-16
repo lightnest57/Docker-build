@@ -25,53 +25,9 @@ RUN set -xe \
 
 WORKDIR /home
 
-RUN set -xe \
-  && mkdir /home/builder/bin \
-  && curl -sL https://gerrit.googlesource.com/git-repo/+/refs/heads/stable/repo?format=TEXT | base64 --decode  > /home/builder/bin/repo \
-  && curl -s https://api.github.com/repos/tcnksm/ghr/releases/latest \
-    | jq -r '.assets[] | select(.browser_download_url | contains("linux_amd64")) | .browser_download_url' | wget -qi - \
-  && tar -xzf ghr_*_amd64.tar.gz --wildcards 'ghr*/ghr' --strip-components 1 \
-  && mv ./ghr /home/builder/bin/ && rm -rf ghr_*_amd64.tar.gz \
-  && chmod a+rx /home/builder/bin/repo \
-  && chmod a+x /home/builder/bin/ghr
-
 WORKDIR /home/builder
 
-RUN set -xe \
-  && mkdir -p extra && cd extra \
-  && wget -q https://ftp.gnu.org/gnu/make/make-4.3.tar.gz \
-  && tar xzf make-4.3.tar.gz \
-  && cd make-*/ \
-  && ./configure && bash ./build.sh 1>/dev/null && install ./make /usr/local/bin/make \
-  && cd .. \
-  && if [ "${SHORTCODE}" = "bionic" ]; then \
-    git clone https://github.com/ninja-build/ninja.git; \
-    cd ninja; git checkout -q v1.10.2; \
-    ./configure.py --bootstrap; \
-    install ./ninja /usr/local/bin/ninja; \
-    cd ..; fi \
-  && git clone https://github.com/ccache/ccache.git \
-  && cd ccache && git checkout -q v4.2 \
-  && mkdir build && cd build \
-  && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr .. \
-  && make -j8 && make install \
-  && cd ../../.. \
-  && rm -rf extra
-
-RUN if [ "${SHORTCODE}" = "focal" ]; then \
-    if [ -e /lib/x86_64-linux-gnu/libncurses.so.6 ] && [ ! -e /usr/lib/x86_64-linux-gnu/libncurses.so.5 ]; then \
-      ln -s /lib/x86_64-linux-gnu/libncurses.so.6 /usr/lib/x86_64-linux-gnu/libncurses.so.5; \
-    fi; \
-  fi
-
-# Set up udev rules for adb
-RUN set -xe \
-  && curl --create-dirs -sL -o /etc/udev/rules.d/51-android.rules -O -L \
-    https://raw.githubusercontent.com/M0Rf30/android-udev-rules/master/51-android.rules \
-  && chmod 644 /etc/udev/rules.d/51-android.rules \
-  && chown root /etc/udev/rules.d/51-android.rules
-
-RUN CCACHE_DIR=/srv/ccache ccache -M 5G \
+RUN CCACHE_DIR=/tmp/ccache ccache -M 5G \
   && chown builder:builder /tmp/ccache
 
 USER builder
