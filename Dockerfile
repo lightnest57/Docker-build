@@ -1,5 +1,7 @@
-FROM ubuntu:focal
+FROM ubuntu:hirsute
+
 LABEL maintainer="I-n-o-k <inok.dr189@gmail.com>"
+
 ENV DEBIAN_FRONTEND noninteractive
 
 WORKDIR /tmp
