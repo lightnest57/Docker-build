@@ -64,11 +64,6 @@ RUN if [ "${SHORTCODE}" = "focal" ]; then \
     fi; \
   fi
 
-COPY android-env-vars.sh /etc/android-env-vars.sh
-
-RUN chmod a+x /etc/android-env-vars.sh \
-  && echo "source /etc/android-env-vars.sh" >> /etc/bash.bashrc
-
 # Set up udev rules for adb
 RUN set -xe \
   && curl --create-dirs -sL -o /etc/udev/rules.d/51-android.rules -O -L \
