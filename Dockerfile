@@ -17,8 +17,8 @@ RUN apt-get -yqq update \
     && TZ=Asia/Jakarta \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN  apt list --installed \
-    && apt-get -y clean && apt-get -y autoremove \
+RUN apt list --installed \
+    && apt-get -yqq clean && apt-get -yqq autoremove \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/* \
     && dpkg-divert --local --rename /usr/bin/ischroot && ln -sf /bin/true /usr/bin/ischroot \
     && chmod u+s /usr/bin/screen && chmod 755 /var/run/screen \
