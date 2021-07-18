@@ -19,8 +19,6 @@ RUN apt-get -yqq update \
 RUN apt-get -yqq clean \
     && apt-get -yqq autoremove \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/* \
-    && dpkg-divert --local --rename /usr/bin/ischroot && ln -sf /bin/true /usr/bin/ischroot \
-    && chmod u+s /usr/bin/screen && chmod 755 /var/run/screen \
     && echo "Set disable_coredump false" >> /etc/sudo.conf
 
 VOLUME ["/tmp/rom", "/tmp/ccache"]
