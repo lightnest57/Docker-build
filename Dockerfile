@@ -12,7 +12,6 @@ RUN apt-get -yqq update \
     && apt-get -yqq purge default-jre-headless openjdk-11-jre-headless \
     && curl --create-dirs -L -o /usr/local/bin/repo -O -L https://storage.googleapis.com/git-repo-downloads/repo \
     && chmod a+rx /usr/local/bin/repo \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/* \
     && echo 'en_GB.UTF-8 UTF-8' > /etc/locale.gen && /usr/sbin/locale-gen \
     && TZ=Asia/Jakarta \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
