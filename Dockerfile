@@ -15,7 +15,7 @@ RUN apt-get -yqq update \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/* \
     && dpkg-divert --local --rename /usr/bin/ischroot && ln -sf /bin/true /usr/bin/ischroot \
     && chmod u+s /usr/bin/screen && chmod 755 /var/run/screen \
-    && echo "Set disable_coredump false" >> /etc/sudo.conf
+    && echo "Set disable_coredump false" >> /etc/sudo.conf \
     && curl --create-dirs -L -o /usr/local/bin/repo -O -L https://storage.googleapis.com/git-repo-downloads/repo \
     && chmod a+rx /usr/local/bin/repo \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/* \
