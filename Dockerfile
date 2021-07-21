@@ -1,4 +1,4 @@
-FROM ubuntu:hirsute
+FROM ubuntu:impish
 
 LABEL maintainer="I-n-o-k <inok.dr189@gmail.com>"
 
