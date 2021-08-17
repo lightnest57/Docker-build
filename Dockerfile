@@ -23,9 +23,9 @@ WORKDIR /tmp
 
 RUN apt-get -yqq update
 RUN apt-get install git sudo tzdata -yqq
-    && echo 'en_GB.UTF-8 UTF-8' > /etc/locale.gen && /usr/sbin/locale-gen \
-    && TZ=Asia/Jakarta \
-    && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN echo 'en_GB.UTF-8 UTF-8' > /etc/locale.gen && /usr/sbin/locale-gen \
+RUN TZ=Asia/Jakarta \
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-mark hold tzdata
 
