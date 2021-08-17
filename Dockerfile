@@ -22,7 +22,7 @@ WORKDIR /tmp
 #    && echo "Set disable_coredump false" >> /etc/sudo.conf
 
 RUN apt-get -yqq update
-RUN apt-get install  -yqq --no-install-recommends git sudo tzdata locales python-is-python3 pigz tar rsync rclone aria2 ccache
+RUN apt-get install  -yqq --no-install-recommends sudo tzdata locales python-is-python3 pigz tar rsync rclone aria2 ccache
 RUN echo 'en_GB.UTF-8 UTF-8' > /etc/locale.gen
 RUN /usr/sbin/locale-gen
 RUN ln -snf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
@@ -30,6 +30,7 @@ RUN echo Asia/Jakarta > /etc/timezone
 
 RUN apt-mark hold tzdata
 
+RUN apt install git -yqq
 RUN git clone https://github.com/akhilnarang/scripts /tmp/scripts
 WORKDIR /tmp/scripts
 RUN bash setup/android_build_env.sh
