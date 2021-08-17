@@ -22,7 +22,12 @@ WORKDIR /tmp
 #    && echo "Set disable_coredump false" >> /etc/sudo.conf
 
 RUN apt-get -yqq update
-RUN apt-get install git sudo -yqq
+RUN apt-get install git sudo tzdata -yqq
+    && echo 'en_GB.UTF-8 UTF-8' > /etc/locale.gen && /usr/sbin/locale-gen \
+    && TZ=Asia/Jakarta \
+    && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+RUN apt-mark hold tzdata
 
 RUN git clone https://github.com/akhilnarang/scripts
 WORKDIR /tmp/scripts
