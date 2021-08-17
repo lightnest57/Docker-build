@@ -16,10 +16,10 @@ WORKDIR /tmp
 #    && TZ=Asia/Jakarta \
 #    && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN apt-get -yqq clean \
-    && apt-get -yqq autoremove \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/* \
-    && echo "Set disable_coredump false" >> /etc/sudo.conf
+#RUN apt-get -yqq clean \
+#    && apt-get -yqq autoremove \
+#    && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/* \
+#    && echo "Set disable_coredump false" >> /etc/sudo.conf
 
 RUN apt-get -yqq update
 RUN apt-get install git sudo tzdata locales python-is-python3 -yqq
