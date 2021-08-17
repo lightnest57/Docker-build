@@ -30,7 +30,7 @@ RUN echo Asia/Jakarta > /etc/timezone
 
 RUN apt-mark hold tzdata
 
-RUN git clone https://github.com/akhilnarang/scripts
+RUN git clone https://github.com/akhilnarang/scripts /tmp/scripts
 WORKDIR /tmp/scripts
 RUN bash setup/android_build_env.sh
 WORKDIR /tmp
