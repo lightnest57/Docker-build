@@ -22,7 +22,7 @@ WORKDIR /tmp
 #    && echo "Set disable_coredump false" >> /etc/sudo.conf
 
 RUN apt-get -yqq update
-RUN apt-get install git -yqq
+RUN apt-get install git sudo -yqq
 
 RUN git clone https://github.com/akhilnarang/scripts
 WORKDIR /tmp/scripts
