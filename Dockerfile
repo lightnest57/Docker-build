@@ -3,8 +3,10 @@ FROM ubuntu:impish
 LABEL maintainer="I-n-o-k <inok.dr189@gmail.com>"
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV JAVA_OPTS=" -Xmx7G "
-ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+ENV LANG=C.UTF-8
+ENV PATH=~/bin:/usr/local/bin:/home/builder/bin:$PATH
+ENV USE_CCACHE=1
+
 WORKDIR /tmp
 
 #RUN apt-get -yqq update \    
@@ -22,13 +24,37 @@ WORKDIR /tmp
 #    && echo "Set disable_coredump false" >> /etc/sudo.conf
 
 RUN apt-get -yqq update
-RUN apt-get install  -yqq --no-install-recommends sudo tzdata locales python-is-python3 pigz tar rsync rclone aria2 ccache
+RUN apt-get install  -yqq --no-install-recommends sudo tzdata locales python-is-python3 pigz tar rsync rclone aria2 ccache ninja-build libcrypt-dev
 RUN echo 'en_GB.UTF-8 UTF-8' > /etc/locale.gen
 RUN /usr/sbin/locale-gen
 RUN ln -snf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
 RUN echo Asia/Jakarta > /etc/timezone
 
 RUN apt-mark hold tzdata
+
+RUN set -xe \
+  && mkdir -p /home/anu \
+  && useradd --no-create-home anu \
+  && rsync -a /etc/skel/ /home/anu/ \
+  && chown -R anu:anu /home/anu \
+  && echo "anu ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers
+
+WORKDIR /home/anu
+
+RUN set -xe \
+  && mkdir -p extra && cd extra \
+  && wget -q https://ftp.gnu.org/gnu/make/make-4.3.tar.gz \
+  && tar xzf make-4.3.tar.gz \
+  && cd make-*/ \
+  && ./configure && bash ./build.sh 1>/dev/null && install ./make /usr/local/bin/make \
+  && cd .. \
+  && git clone https://github.com/ccache/ccache.git \
+  && cd ccache && git checkout -q v4.2 \
+  && mkdir build && cd build \
+  && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr .. \
+  && make -j8 && make install \
+  && cd ../../.. \
+  && rm -rf extra
 
 RUN apt install git -yqq
 RUN git clone https://github.com/akhilnarang/scripts /tmp/scripts
