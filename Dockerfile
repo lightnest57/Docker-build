@@ -32,19 +32,11 @@ RUN echo Asia/Jakarta > /etc/timezone
 
 RUN apt-mark hold tzdata
 
-RUN set -xe \
-  && mkdir -p /home/anu \
-  && useradd --no-create-home anu \
-  && rsync -a /etc/skel/ /home/anu/ \
-  && chown -R anu:anu /home/anu \
-  && echo "anu ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers
-
-USER anu
 RUN sudo apt install git -yqq
 RUN git clone https://github.com/akhilnarang/scripts /tmp/scripts
 WORKDIR /tmp/scripts
 RUN bash setup/android_build_env.sh
 
-WORKDIR /home/anu
+WORKDIR /tmp
 
-VOLUME ["/home/anu/rom", "/home/anu/ccache"]
+VOLUME ["/tmp/rom", "/tmp/ccache"]
