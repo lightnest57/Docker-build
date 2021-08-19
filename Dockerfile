@@ -24,7 +24,7 @@ WORKDIR /tmp
 #    && echo "Set disable_coredump false" >> /etc/sudo.conf
 
 RUN apt-get -yqq update
-RUN apt-get install  -yqq --no-install-recommends sudo tzdata locales python-is-python3 pigz tar rsync rclone aria2 ccache ninja-build libcrypt-dev build-essential gcc gcc-multilib g++ g++-multilib clang llvm lld cmake automake autoconf libxml2 libxml2-utils xsltproc expat re2c
+RUN apt-get install  -yqq --no-install-recommends sudo tzdata locales python-is-python3 pigz wget
 RUN echo 'en_GB.UTF-8 UTF-8' > /etc/locale.gen
 RUN /usr/sbin/locale-gen
 RUN ln -snf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
@@ -38,6 +38,11 @@ RUN set -xe \
   && rsync -a /etc/skel/ /home/anu/ \
   && chown -R anu:anu /home/anu \
   && echo "anu ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers
+
+RUN apt install git -yqq
+RUN git clone https://github.com/akhilnarang/scripts /tmp/scripts
+WORKDIR /tmp/scripts
+RUN bash setup/android_build_env.sh
 
 WORKDIR /home/anu
 
@@ -56,10 +61,6 @@ RUN set -xe \
   && cd ../../.. \
   && rm -rf extra
 
-RUN apt install git -yqq
-RUN git clone https://github.com/akhilnarang/scripts /tmp/scripts
-WORKDIR /tmp/scripts
-RUN bash setup/android_build_env.sh
 WORKDIR /tmp
 
 VOLUME ["/tmp/rom", "/tmp/ccache"]
