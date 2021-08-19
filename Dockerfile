@@ -39,13 +39,13 @@ RUN set -xe \
   && chown -R anu:anu /home/anu \
   && echo "anu ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers
 
-RUN apt install git -yqq
+USER anu
+RUN sudo apt install git -yqq
 RUN git clone https://github.com/akhilnarang/scripts /tmp/scripts
 WORKDIR /tmp/scripts
 RUN bash setup/android_build_env.sh
 
 WORKDIR /home/anu
-USER anu
 
 WORKDIR /tmp
 
