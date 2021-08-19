@@ -47,6 +47,4 @@ RUN bash setup/android_build_env.sh
 
 WORKDIR /home/anu
 
-WORKDIR /tmp
-
-VOLUME ["/tmp/rom", "/tmp/ccache"]
+VOLUME ["/home/anu/rom", "/home/anu/ccache"]
