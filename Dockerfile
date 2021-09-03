@@ -4,7 +4,8 @@ LABEL maintainer="I-n-o-k <inok.dr189@gmail.com>"
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV LANG=C.UTF-8
-ENV PATH=~/bin:/usr/local/bin:/home/builder/bin:$PATH
+ENV JAVA_OPTS=" -Xmx7G "
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ENV USE_CCACHE=1
 
 WORKDIR /tmp
