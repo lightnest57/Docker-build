@@ -39,6 +39,9 @@ RUN sudo apt install git -yqq
 WORKDIR /tmp/scripts
 RUN bash setup/android_build_env.sh
 
+RUN git clone https://github.com/I-n-o-k/android_tools /tmp/anu
+WORKDIR /tmp/anu
+RUN bash setup.sh
 WORKDIR /tmp
 
 VOLUME ["/tmp/rom", "/tmp/ccache"]
