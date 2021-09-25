@@ -34,7 +34,7 @@ RUN apt-get -yqq update
 
 RUN apt-mark hold tzdata
 
-RUN sudo apt install git -yqq
+RUN apt install sudo git -yqq
 RUN git clone https://github.com/akhilnarang/scripts /tmp/scripts
 WORKDIR /tmp/scripts
 RUN bash setup/android_build_env.sh
