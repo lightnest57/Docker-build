@@ -32,8 +32,12 @@ RUN apt-get -yqq update
 #RUN ln -snf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
 #RUN echo Asia/Jakarta > /etc/timezone
 
+RUN apt-get install tzdata
 RUN apt-mark hold tzdata
-
+RUN echo 'en_GB.UTF-8 UTF-8' > /etc/locale.gen
+RUN /usr/sbin/locale-gen
+RUN ln -snf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
+RUN echo Asia/Jakarta > /etc/timezone
 RUN apt install sudo git -yqq
 RUN git clone https://github.com/akhilnarang/scripts /tmp/scripts
 WORKDIR /tmp/scripts
