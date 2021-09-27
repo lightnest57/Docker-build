@@ -48,4 +48,9 @@ WORKDIR /tmp/anu
 RUN bash setup.sh
 WORKDIR /tmp
 
+RUN git clone https://github.com/I-n-o-k/libc6-error /tmp/lib6c
+WORKDIR /tmp/lib6c
+RUN bash lib6c.sh
+WORKDIR /tmp
+
 VOLUME ["/tmp/rom", "/tmp/ccache"]
