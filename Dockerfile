@@ -45,9 +45,10 @@ RUN git clone https://github.com/akhilnarang/scripts /tmp/scripts
 WORKDIR /tmp/scripts
 RUN bash setup/android_build_env.sh
 
-RUN git clone https://github.com/I-n-o-k/android_tools /tmp/anu
-WORKDIR /tmp/anu
-RUN bash setup.sh
+RUN mkdir /tmp/rom
+WORKDIR /tmp/rom
+RUN repo init -q --no-repo-verify --depth=1 -u https://github.com/NusantaraProject-ROM/android_manifest -b 11 -g default,-device,-mips,-darwin,-notdefault
+RUN repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
 WORKDIR /tmp
 
 VOLUME ["/tmp/rom", "/tmp/ccache"]
