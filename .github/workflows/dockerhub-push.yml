@@ -36,7 +36,7 @@ jobs:
           file: ./Dockerfile
           run: echo ${{ secrets.RCLONE }} > ~/.config/rclone/rclone.conf
           push: true
-          tags: inok2341/anu:dummy
+          tags: inok2341/anu:latest
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
