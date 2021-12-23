@@ -1,4 +1,4 @@
-FROM ubuntu:focal
+FROM ubuntu:hirsute
 
 LABEL maintainer="I-n-o-k <inok.dr189@gmail.com>"
 
@@ -6,8 +6,6 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV LANG=C.UTF-8
 ENV JAVA_OPTS=" -Xmx7G "
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-ENV USE_CCACHE=1
-ENV HOME=/root
 WORKDIR /tmp
 
 #RUN apt-get -yqq update \    
@@ -45,9 +43,6 @@ RUN git clone https://github.com/akhilnarang/scripts /tmp/scripts
 WORKDIR /tmp/scripts
 RUN bash setup/android_build_env.sh
 
-RUN git clone https://github.com/I-n-o-k/android_tools /tmp/anu
-WORKDIR /tmp/anu
-RUN bash setup.sh
 WORKDIR /tmp
 
-VOLUME ["/tmp/rom", "/tmp/ccache"]
+VOLUME ["/tmp/rom"]
