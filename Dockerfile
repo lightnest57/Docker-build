@@ -26,7 +26,7 @@ WORKDIR /tmp
 RUN sudo apt-get -yqq update
 RUN sudo apt install sudo -y
 # RUN sudo apt-get -yqq upgrade
-RUN apt-mark hold openjdk-11-jre-headless
+RUN sudo apt-mark hold openjdk-11-jre-headless
 RUN sudo apt install pigz tar -y
 RUN sudo apt install rsync rclone aria2 -y
 RUN sudo apt install -y ccache curl 
