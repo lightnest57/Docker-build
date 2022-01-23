@@ -22,10 +22,10 @@ WORKDIR /tmp
 #    && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/* \
 #    && echo "Set disable_coredump false" >> /etc/sudo.conf
 
-USER root
+#USER root
 RUN sudo apt-get -yqq update
-RUN sudo apt-get -yqq upgrade
-RUN apt-get install locales python-is-python3 pigz tar rsync rclone aria2 ccache curl wget zip unzip lzip lzop zlib1g-dev
+#RUN sudo apt-get -yqq upgrade
+RUN sudo apt-get install python-is-python3 pigz tar rsync rclone aria2 ccache curl wget zip unzip lzip lzop zlib1g-dev
 # xzdec xz-utils pixz p7zip-full p7zip-rar zstd libzstd-dev lib32z1-dev ffmpeg maven nodejs ca-certificates-java python-is-python3 pigz tar rsync rclone aria2 libncurses5 adb autoconf automake axel bc bison build-essential ccache clang cmake curl expat fastboot flex g++ g++-multilib gawk gcc gcc-multilib git gnupg gperf htop imagemagick locales libncurses5 lib32ncurses5-dev lib32z1-dev libtinfo5 libc6-dev libcap-dev libexpat1-dev libgmp-dev '^liblz4-.*' '^liblzma.*' libmpc-dev libmpfr-dev libncurses5-dev libsdl1.2-dev libssl-dev libtool libxml-simple-perl libxml2 libxml2-utils lsb-core lzip '^lzma.*' lzop maven nano ncftp ncurses-dev openssh-server patch patchelf pkg-config pngcrush pngquant python2.7 python-all-dev python-is-python3 re2c rclone rsync schedtool squashfs-tools subversion sudo tar texinfo tmate tzdata unzip w3m wget xsltproc zip zlib1g-dev zram-config zstd
 #RUN echo 'en_GB.UTF-8 UTF-8' > /etc/locale.gen
 #RUN /usr/sbin/locale-gen
