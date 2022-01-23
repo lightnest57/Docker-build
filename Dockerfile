@@ -1,4 +1,4 @@
-FROM ubuntu:impish
+FROM apon77/aosp:cirrus
 
 LABEL maintainer="I-n-o-k <inok.dr189@gmail.com>"
 
