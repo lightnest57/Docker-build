@@ -26,7 +26,7 @@ WORKDIR /tmp
 RUN sudo apt-get -yqq update
 RUN sudo apt install sudo -y
 # RUN sudo apt-get -yqq upgrade
-RUN sudo apt install openjdk-11-jre-headless -y
+RUN apt-mark hold openjdk-11-jre-headless
 RUN sudo apt install pigz tar -y
 RUN sudo apt install rsync rclone aria2 -y
 RUN sudo apt install -y ccache curl 
@@ -36,18 +36,18 @@ RUN sudo apt install -y xzdec xz-utils pixz p7zip-full p7zip-rar zstd libzstd-de
 #RUN ln -snf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
 #RUN echo Asia/Jakarta > /etc/timezone
 
-RUN apt-get -y install tzdata
-RUN apt-mark hold tzdata
+RUN sudo apt-get -y install tzdata
+RUN sudo apt-mark hold tzdata
 RUN echo 'en_GB.UTF-8 UTF-8' > /etc/locale.gen
 RUN /usr/sbin/locale-gen
 RUN ln -snf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
 RUN echo Asia/Jakarta > /etc/timezone
-RUN apt install sudo git -yqq
+RUN sudo apt install sudo git -yqq
 RUN git config --global user.name I-n-o-k
 RUN git config --global user.email inok.dr189@gmail.com
 RUN git clone https://github.com/akhilnarang/scripts /tmp/scripts
 WORKDIR /tmp/scripts
-RUN bash setup/android_build_env.sh
+RUN sudo bash setup/android_build_env.sh
 
 WORKDIR /tmp
 
