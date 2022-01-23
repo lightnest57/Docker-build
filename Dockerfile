@@ -39,10 +39,10 @@ RUN sudo apt install -y ccache curl
 
 RUN sudo apt-get -y install tzdata
 RUN sudo apt-mark hold tzdata
-RUN echo 'en_GB.UTF-8 UTF-8' > /etc/locale.gen
-RUN /usr/sbin/locale-gen
-RUN ln -snf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
-RUN echo Asia/Jakarta > /etc/timezone
+RUN sudo echo 'en_GB.UTF-8 UTF-8' > /etc/locale.gen
+RUN sudo /usr/sbin/locale-gen
+RUN sudo ln -snf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
+RUN sudo echo Asia/Jakarta > /etc/timezone
 RUN sudo apt install sudo git -yqq
 RUN git config --global user.name I-n-o-k
 RUN git config --global user.email inok.dr189@gmail.com
