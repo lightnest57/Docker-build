@@ -28,7 +28,7 @@ RUN sudo apt-get -y install tzdata \
 RUN git config --global user.name I-n-o-k
 RUN git config --global user.email inok.dr189@gmail.com
 
-RUN git clone https://github.com/kdrag0n/proton-clang /tmp/proton
+RUN git clone --depth=1 https://github.com/kdrag0n/proton-clang /tmp/proton
 RUN git clone https://github.com/akhilnarang/scripts /tmp/scripts \
      && sudo bash /tmp/scripts/setup/android_build_env.sh \
      && rm -rf /tmp/scripts
