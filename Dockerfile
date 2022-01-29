@@ -8,14 +8,12 @@ ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 WORKDIR /tmp
 
 RUN apt-get -yqq update \    
-     && apt-get install -yqq --no-install-recommends sudo ssh git ffmpeg openjdk-8-jdk openjdk-8-jre maven nodejs ca-certificates-java python-is-python3 pigz tar rsync ccache rclone aria2 libncurses5 \
+     && apt-get install -yqq --no-install-recommends sudo curl ssh git ffmpeg openjdk-8-jdk openjdk-8-jre maven nodejs ca-certificates-java python-is-python3 pigz tar rsync ccache rclone aria2 libncurses5 \
      && apt-get -yqq purge default-jre-headless openjdk-11-jre-headless
 
 WORKDIR /tmp
-RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/etc/apt/trusted.gpg.d/githubcli-archive-keyring.gpg
-RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/trusted.gpg.d/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
-RUN sudo apt update
-RUN sudo apt install gh
+RUN curl curl -L -o /tmp/gh.deb https://github.com/cli/cli/releases/download/v2.4.0/gh_2.4.0_linux_amd64.deb
+RUN dkpg -i /tmp/gh.deb
 
 RUN apt-get -yqq clean \
      && apt-get -yqq autoremove \
