@@ -11,10 +11,6 @@ RUN apt-get -yqq update \
      && apt-get install -yqq --no-install-recommends dpkg sudo curl ssh git ffmpeg openjdk-8-jdk openjdk-8-jre maven nodejs ca-certificates-java python-is-python3 pigz tar rsync ccache rclone aria2 libncurses5 \
      && apt-get -yqq purge default-jre-headless openjdk-11-jre-headless
 
-WORKDIR /tmp
-RUN curl curl -L -o /tmp/gh_2.4.0_linux_amd64.deb https://github.com/cli/cli/releases/download/v2.4.0/gh_2.4.0_linux_amd64.deb
-RUN apt install /tmp/gh_2.4.0_linux_amd64.deb
-
 RUN apt-get -yqq clean \
      && apt-get -yqq autoremove \
      && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/* \
