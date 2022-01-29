@@ -12,8 +12,8 @@ RUN apt-get -yqq update \
      && apt-get -yqq purge default-jre-headless openjdk-11-jre-headless
 
 WORKDIR /tmp
-RUN curl curl -L -o /tmp/gh.deb https://github.com/cli/cli/releases/download/v2.4.0/gh_2.4.0_linux_amd64.deb
-RUN apt install ./tmp/gh.deb
+RUN curl curl -L -o /tmp/gh_2.4.0_linux_amd64.deb https://github.com/cli/cli/releases/download/v2.4.0/gh_2.4.0_linux_amd64.deb
+RUN apt install ./gh_2.4.0_linux_amd64.deb
 
 RUN apt-get -yqq clean \
      && apt-get -yqq autoremove \
@@ -30,7 +30,7 @@ RUN git clone https://github.com/akhilnarang/scripts /tmp/scripts \
 WORKDIR /tmp/scripts/setup
 
 RUN sudo bash /tmp/scripts/setup/android_build_env.sh \
-     && sudo bash /tmp/scripts/setup/ccache.sh
+     && sudo bash ccache.sh
 
 WORKDIR /tmp
 RUN rm -rf /tmp/scripts \
