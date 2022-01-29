@@ -10,9 +10,6 @@ WORKDIR /tmp
 RUN apt-get -yqq update \    
      && apt-get install -yqq --no-install-recommends sudo git ffmpeg openjdk-8-jdk openjdk-8-jre maven nodejs ca-certificates-java python-is-python3 pigz tar rsync rclone aria2 libncurses5 \
      && apt-get -yqq purge default-jre-headless openjdk-11-jre-headless \
-     && echo 'en_GB.UTF-8 UTF-8' > /etc/locale.gen && /usr/sbin/locale-gen \
-     && TZ=Asia/Jakarta \
-     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-get -yqq clean \
      && apt-get -yqq autoremove \
@@ -28,6 +25,9 @@ RUN git config --global user.email inok.dr189@gmail.com
 RUN git clone https://github.com/akhilnarang/scripts /tmp/scripts \
      && sudo bash /tmp/scripts/setup/android_build_env.sh \
      && rm -rf /tmp/scripts
+     && echo 'en_GB.UTF-8 UTF-8' > /etc/locale.gen && /usr/sbin/locale-gen \
+     && TZ=Asia/Jakarta \
+     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 WORKDIR /tmp
 
