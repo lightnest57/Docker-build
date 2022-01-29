@@ -1,4 +1,4 @@
-FROM ubuntu:impish
+FROM ubuntu:focal
 
 LABEL maintainer="I-n-o-k <inok.dr189@gmail.com>"
 
