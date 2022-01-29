@@ -13,7 +13,7 @@ RUN apt-get -yqq update \
 
 WORKDIR /tmp
 RUN curl curl -L -o /tmp/gh.deb https://github.com/cli/cli/releases/download/v2.4.0/gh_2.4.0_linux_amd64.deb
-RUN dkpg -i /tmp/gh.deb
+RUN apt install ./tmp/gh.deb
 
 RUN apt-get -yqq clean \
      && apt-get -yqq autoremove \
