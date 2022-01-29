@@ -17,6 +17,7 @@ RUN apt-get -yqq clean \
      && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/* \
      && echo "Set disable_coredump false" >> /etc/sudo.conf
 
+RUN sudo snap install gh -y
 RUN sudo apt-get -y install tzdata \
      && sudo apt-mark hold tzdata
      
