@@ -9,7 +9,7 @@ ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 WORKDIR /tmp
 
 RUN apt-get -yqq update \    
-     && apt-get install -yqq --no-install-recommends snapd sudo curl ssh git ffmpeg openjdk-8-jdk openjdk-8-jre maven nodejs ca-certificates-java python-is-python3 pigz tar rsync ccache rclone aria2 libncurses5 \
+     && apt-get install -yqq --no-install-recommends go sudo curl ssh git ffmpeg openjdk-8-jdk openjdk-8-jre maven nodejs ca-certificates-java python-is-python3 pigz tar rsync ccache rclone aria2 libncurses5 \
      && apt-get -yqq purge default-jre-headless openjdk-11-jre-headless
 
 RUN apt-get -yqq clean \
@@ -26,9 +26,13 @@ RUN git config --global user.email inok.dr189@gmail.com
 
 RUN git clone https://github.com/I-n-o-k/scripts /tmp/scripts
 WORKDIR /tmp/scripts/setup
+RUN make install
 
 RUN sudo bash android_build_env.sh \
-     && sudo bash ccache.sh
+
+RUN git clone https://github.com/cli/cli.git /tmp/gh-cli
+WORKDIR /tmp/gh-cli
+
 
 WORKDIR /tmp
 RUN rm -rf /tmp/scripts \
