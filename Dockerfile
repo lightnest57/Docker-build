@@ -13,7 +13,7 @@ RUN apt-get -yqq update \
 
 WORKDIR /tmp
 RUN curl curl -L -o /tmp/gh_2.4.0_linux_amd64.deb https://github.com/cli/cli/releases/download/v2.4.0/gh_2.4.0_linux_amd64.deb
-RUN apt install ./gh_2.4.0_linux_amd64.deb
+RUN apt install /tmp/gh_2.4.0_linux_amd64.deb
 
 RUN apt-get -yqq clean \
      && apt-get -yqq autoremove \
@@ -29,7 +29,7 @@ RUN git config --global user.email inok.dr189@gmail.com
 RUN git clone https://github.com/akhilnarang/scripts /tmp/scripts \
 WORKDIR /tmp/scripts/setup
 
-RUN sudo bash /tmp/scripts/setup/android_build_env.sh \
+RUN sudo bash android_build_env.sh \
      && sudo bash ccache.sh
 
 WORKDIR /tmp
