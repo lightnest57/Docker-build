@@ -23,9 +23,13 @@ RUN git config --global user.name I-n-o-k
 RUN git config --global user.email inok.dr189@gmail.com
 
 RUN git clone https://github.com/akhilnarang/scripts /tmp/scripts \
-     && sudo bash /tmp/scripts/setup/android_build_env.sh \
-     && sudo bash /tmp/scripts/setup/ccache.sh \
-     && rm -rf /tmp/scripts \
+WORKDIR /tmp/scripts/setup
+
+RUN sudo bash /tmp/scripts/setup/android_build_env.sh \
+     && sudo bash /tmp/scripts/setup/ccache.sh
+
+WORKDIR /tmp
+RUN rm -rf /tmp/scripts \
      && echo 'en_GB.UTF-8 UTF-8' > /etc/locale.gen && /usr/sbin/locale-gen \
      && TZ=Asia/Jakarta \
      && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
