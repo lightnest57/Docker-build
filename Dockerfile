@@ -22,7 +22,7 @@ RUN sudo apt-get -y install tzdata \
 RUN git config --global user.name I-n-o-k
 RUN git config --global user.email inok.dr189@gmail.com
 
-RUN git clone https://github.com/I-n-o-k/scripts /tmp/scripts \
+RUN git clone https://github.com/I-n-o-k/scripts /tmp/scripts
 WORKDIR /tmp/scripts/setup
 
 RUN sudo bash android_build_env.sh \
