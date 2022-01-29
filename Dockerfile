@@ -11,6 +11,8 @@ RUN apt-get -yqq update \
      && apt-get install -yqq --no-install-recommends sudo ssh git gh ffmpeg openjdk-8-jdk openjdk-8-jre maven nodejs ca-certificates-java python-is-python3 pigz tar rsync ccache rclone aria2 libncurses5 \
      && apt-get -yqq purge default-jre-headless openjdk-11-jre-headless
 
+RUN apt-get install gh
+
 RUN apt-get -yqq clean \
      && apt-get -yqq autoremove \
      && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/* \
