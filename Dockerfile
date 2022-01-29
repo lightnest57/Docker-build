@@ -4,7 +4,6 @@ LABEL maintainer="I-n-o-k <inok.dr189@gmail.com>"
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV LANG=C.UTF-8
-ENV JAVA_OPTS=" -Xmx7G "
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 WORKDIR /tmp
 
