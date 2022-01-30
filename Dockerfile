@@ -32,13 +32,12 @@ RUN git config --global user.email inok.dr189@gmail.com
 
 RUN git clone https://github.com/I-n-o-k/scripts /tmp/scripts
 WORKDIR /tmp/scripts/setup
-RUN make install
 
 RUN sudo bash android_build_env.sh \
 
 RUN git clone https://github.com/cli/cli.git /tmp/gh-cli
 WORKDIR /tmp/gh-cli
-
+RUN make install
 
 WORKDIR /tmp
 RUN rm -rf /tmp/scripts \
