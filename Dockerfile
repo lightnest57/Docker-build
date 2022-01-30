@@ -35,8 +35,7 @@ RUN sudo bash android_build_env.sh \
 WORKDIR /tmp
 RUN rm -rf /tmp/scripts \
      && echo 'en_GB.UTF-8 UTF-8' > /etc/locale.gen && /usr/sbin/locale-gen \
-     && TZ=Asia/Jakarta \
-     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+     && ln -snf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime && echo Asia/Jakarta > /etc/timezone
 
 WORKDIR /tmp
 
