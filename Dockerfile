@@ -19,7 +19,7 @@ RUN curl -L -o /tmp/gh.deb https://github.com/cli/cli/releases/download/v2.4.0/g
 RUN apt install /tmp/gh.deb
 
 WORKDIR /tmp
-RUN wget https://go.dev/dl/go1.17.6.linux-amd64.tar.gz
+RUN curl -L -o /tmp/go1.17.6.linux-amd64.tar.gz https://go.dev/dl/go1.17.6.linux-amd64.tar.gz
 RUN rm -rf /usr/local/go \
      && tar -C /usr/local -xzf go1.17.6.linux-amd64.tar.gz
 
