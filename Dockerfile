@@ -15,7 +15,7 @@ RUN apt-get update -q -y \
     # Core Apt Packages
     apt-utils apt-transport-https python3-apt \
     # Linux Standard Base Packages
-    lsb-core lsb-security ca-certificates systemd udev \
+    sudo git ffmpeg maven nodejs ca-certificates-java python-is-python3 pigz tar rsync rclone aria2 adb autoconf automake axel bc bison build-essential ccache lsb-core lsb-security ca-certificates systemd udev \
     # Upload/Download/Copy/FTP utils
     git curl wget wput axel rsync \
     # GNU and other core tools/utils
@@ -106,4 +106,4 @@ RUN CCACHE_DIR=/tmp/ccache ccache -M 5G \
 
 USER cirrus
 
-VOLUME ["/home/cirrus", "/tmp/ccache"]
+VOLUME ["/home/cirrus", "/tmp/ccache", "/tmp/rom"]
