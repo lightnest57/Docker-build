@@ -2,12 +2,12 @@ FROM ubuntu:focal
 
 LABEL maintainer="I-n-o-k <inok.dr189@gmail.com>"
 
-ENV \
-  DEBIAN_FRONTEND=noninteractive \
-  LANG=C.UTF-8 \
-  JAVA_OPTS=" -Xmx7G " \
-  JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
-  PATH=~/bin:/usr/local/bin:/home/cirrus/bin:$PATH \
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV LANG=C.UTF-8
+ENV JAVA_OPTS=" -Xmx7G "
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+ENV PATH=~/bin:/usr/local/bin:/home/cirrus/bin:$PATH
 
 # Install all required packages
 RUN apt-get update -q -y \
@@ -97,8 +97,7 @@ RUN set -xe \
 
 # Set up udev rules for adb
 RUN set -xe \
-  && curl --create-dirs -sL -o /etc/udev/rules.d/51-android.rules -O -L \
-    https://raw.githubusercontent.com/M0Rf30/android-udev-rules/master/51-android.rules \
+  && curl --create-dirs -sL -o /etc/udev/rules.d/51-android.rules -O -L https://raw.githubusercontent.com/M0Rf30/android-udev-rules/master/51-android.rules \
   && chmod 644 /etc/udev/rules.d/51-android.rules \
   && chown root /etc/udev/rules.d/51-android.rules
 
