@@ -7,7 +7,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8
 ENV JAVA_OPTS=" -Xmx7G "
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-ENV PATH=~/bin:/usr/local/bin:/home/cirrus/bin:$PATH
+ENV PATH=~/bin:/usr/local/bin:/home/root/bin:$PATH
 
 # Install all required packages
 RUN apt-get update -q -y \
@@ -58,27 +58,19 @@ RUN apt-get update -q -y \
   && chmod u+s /usr/bin/screen && chmod 755 /var/run/screen \
   && echo "Set disable_coredump false" >> /etc/sudo.conf
 
-# Create user and home directory
-RUN set -xe \
-  && mkdir -p /home/cirrus \
-  && useradd --no-create-home cirrus \
-  && rsync -a /etc/skel/ /home/cirrus/ \
-  && chown -R cirrus:cirrus /home/cirrus \
-  && echo "cirrus ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers
-
 WORKDIR /home
 
 RUN set -xe \
-  && mkdir /home/cirrus/bin \
+  && mkdir /home/root/bin \
   && curl -sL https://gerrit.googlesource.com/git-repo/+/refs/heads/stable/repo?format=TEXT | base64 --decode  > /home/cirrus/bin/repo \
   && curl -s https://api.github.com/repos/tcnksm/ghr/releases/latest \
     | jq -r '.assets[] | select(.browser_download_url | contains("linux_amd64")) | .browser_download_url' | wget -qi - \
   && tar -xzf ghr_*_amd64.tar.gz --wildcards 'ghr*/ghr' --strip-components 1 \
   && mv ./ghr /home/cirrus/bin/ && rm -rf ghr_*_amd64.tar.gz \
-  && chmod a+rx /home/cirrus/bin/repo \
-  && chmod a+x /home/cirrus/bin/ghr
+  && chmod a+rx /home/root/bin/repo \
+  && chmod a+x /home/root/bin/ghr
 
-WORKDIR /home/cirrus
+WORKDIR /home/root
 
 RUN set -xe \
   && mkdir -p extra && cd extra \
@@ -104,6 +96,6 @@ RUN set -xe \
 RUN CCACHE_DIR=/tmp/ccache ccache -M 5G \
   && chown cirrus:cirrus /tmp/ccache
 
-USER cirrus
+USER root
 
-VOLUME ["/home/cirrus", "/tmp/ccache", "/tmp/rom"]
+VOLUME ["/home/root", "/tmp/ccache", "/tmp/rom"]
