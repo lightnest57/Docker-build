@@ -35,7 +35,7 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: inok2341/anu:latest
+          tags: inok2341/anu:bot
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
