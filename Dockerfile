@@ -1,3 +1,5 @@
+Thermal patched, executed on Thu Apr 13 12:43:39 WIB 2023
+
 FROM ubuntu:focal
 
 LABEL maintainer="I-n-o-k <inok.dr189@gmail.com>"
@@ -62,11 +64,11 @@ WORKDIR /home
 
 RUN set -xe \
   && mkdir /home/root/bin \
-  && curl -sL https://gerrit.googlesource.com/git-repo/+/refs/heads/stable/repo?format=TEXT | base64 --decode  > /home/cirrus/bin/repo \
+  && curl -sL https://gerrit.googlesource.com/git-repo/+/refs/heads/stable/repo?format=TEXT | base64 --decode  > /home/root/bin/repo \
   && curl -s https://api.github.com/repos/tcnksm/ghr/releases/latest \
     | jq -r '.assets[] | select(.browser_download_url | contains("linux_amd64")) | .browser_download_url' | wget -qi - \
   && tar -xzf ghr_*_amd64.tar.gz --wildcards 'ghr*/ghr' --strip-components 1 \
-  && mv ./ghr /home/cirrus/bin/ && rm -rf ghr_*_amd64.tar.gz \
+  && mv ./ghr /home/root/bin/ && rm -rf ghr_*_amd64.tar.gz \
   && chmod a+rx /home/root/bin/repo \
   && chmod a+x /home/root/bin/ghr
 
