@@ -58,7 +58,9 @@ RUN apt-get update -q -y \
   && chmod u+s /usr/bin/screen && chmod 755 /var/run/screen \
   && echo "Set disable_coredump false" >> /etc/sudo.conf
 
-WORKDIR /home
+USER root
+
+WORKDIR /home/root
 
 RUN set -xe \
   && mkdir /home/root/bin \
