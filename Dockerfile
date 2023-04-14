@@ -1,5 +1,3 @@
-Thermal patched, executed on Thu Apr 13 12:43:39 WIB 2023
-
 FROM ubuntu:focal
 
 LABEL maintainer="I-n-o-k <inok.dr189@gmail.com>"
