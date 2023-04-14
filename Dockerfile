@@ -98,5 +98,12 @@ RUN CCACHE_DIR=/tmp/ccache ccache -M 5G \
 
 USER root
 
+RUN mkdir /tmp/rom
+
+WORKDIR /tmp/rom
+RUN repo init -q --no-repo-verify --depth=1 -u https://github.com/NusantaraProject-ROM/android_manifest -b 11 -g default,-device,-mips,-darwin,-notdefault
+RUN repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j2
+
+
 VOLUME ["/home/root", "/tmp/ccache", "/tmp/rom"]
 
