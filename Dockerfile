@@ -1,6 +1,6 @@
 FROM ubuntu:focal
 
-LABEL maintainer="I-n-o-k <inok.dr189@gmail.com>"
+LABEL maintainer="Rahmad Adi Pratama <OhMyVenyx@proton.me>"
 
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -8,6 +8,8 @@ ENV LANG=C.UTF-8
 ENV JAVA_OPTS=" -Xmx7G "
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ENV PATH=~/bin:/usr/local/bin:/home/root/bin:$PATH
+ENV BUILD_USERNAME="OhMyVenyx"
+ENV BUILD_HOSTNAME="IDN-Labs"
 
 # Install all required packages
 RUN apt-get update -q -y \
@@ -64,7 +66,7 @@ WORKDIR /home/root
 
 RUN set -xe \
   && mkdir /home/root/bin \
-  && curl -sL https://gerrit.googlesource.com/git-repo/+/refs/heads/stable/repo?format=TEXT | base64 --decode  > /home/root/bin/repo \
+  && curl --create-dirs -L -o /home/root/bin/repo -O -L https://storage.googleapis.com/git-repo-downloads/repo \
   && curl -s https://api.github.com/repos/tcnksm/ghr/releases/latest \
     | jq -r '.assets[] | select(.browser_download_url | contains("linux_amd64")) | .browser_download_url' | wget -qi - \
   && tar -xzf ghr_*_amd64.tar.gz --wildcards 'ghr*/ghr' --strip-components 1 \
@@ -95,16 +97,16 @@ RUN set -xe \
   && chmod 644 /etc/udev/rules.d/51-android.rules \
   && chown root /etc/udev/rules.d/51-android.rules
 
-RUN CCACHE_DIR=/tmp/ccache ccache -M 5G \
+RUN CCACHE_DIR=/tmp/ccache ccache -M 10G \
   && chown root:root /tmp/ccache
 
 USER root
 
-RUN mkdir /tmp/rom
+RUN mkdir /home/root/rom
 
-WORKDIR /tmp/rom
-RUN repo init -q --no-repo-verify --depth=1 -u https://github.com/NusantaraProject-ROM/android_manifest -b 11 -g default,-device,-mips,-darwin,-notdefault
-RUN repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j2
+WORKDIR /home/root/rom
+RUN repo init -q --no-repo-verify --depth=1 -u https://github.com/xdCLO/xd_manifest -b eleven -g default,-device,-mips,-darwin,-notdefault
+RUN repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
 
 
 VOLUME ["/home/root", "/tmp/ccache", "/tmp/rom"]
