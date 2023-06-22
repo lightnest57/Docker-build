@@ -105,9 +105,6 @@ USER root
 RUN mkdir /home/root/rom
 
 WORKDIR /home/root/rom
-RUN repo init -q --no-repo-verify --depth=1 -u https://github.com/xdCLO/xd_manifest -b eleven -g default,-device,-mips,-darwin,-notdefault
-RUN repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
-
 
 VOLUME ["/home/root", "/tmp/ccache", "/tmp/rom"]
 
