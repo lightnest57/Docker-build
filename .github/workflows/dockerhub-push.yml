@@ -35,7 +35,7 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: ohmyvenyx/rahmed:latest
+          tags: ohmyvenyx/idn-labs:latest
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

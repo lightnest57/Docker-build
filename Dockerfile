@@ -8,7 +8,7 @@ ENV LANG=C.UTF-8
 ENV JAVA_OPTS=" -Xmx7G "
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ENV PATH=~/bin:/usr/local/bin:/home/root/bin:$PATH
-ENV BUILD_USERNAME="rahmed"
+ENV BUILD_USERNAME="rahmad"
 ENV BUILD_HOSTNAME="IDN-Labs"
 
 # Install all required packages
@@ -60,6 +60,12 @@ RUN apt-get update -q -y \
   && chmod u+s /usr/bin/screen && chmod 755 /var/run/screen \
   && echo "Set disable_coredump false" >> /etc/sudo.conf
 
+RUN fallocate -l 32G /swapfile \
+  && chmod 600 /swapfile \
+  && mkswap /swapfile \
+  && swapon /swapfile \
+  && sysctl vm.swappiness=10
+
 USER root
 
 WORKDIR /home/root
@@ -97,7 +103,7 @@ RUN set -xe \
   && chmod 644 /etc/udev/rules.d/51-android.rules \
   && chown root /etc/udev/rules.d/51-android.rules
 
-RUN CCACHE_DIR=/tmp/ccache ccache -M 10G \
+RUN CCACHE_DIR=/tmp/ccache ccache -M 50G \
   && chown root:root /tmp/ccache
 
 USER root
@@ -106,5 +112,5 @@ RUN mkdir -p /home/root/rom
 
 WORKDIR /home/root/rom
 
-VOLUME ["/home/root", "/tmp/ccache", "/tmp/rom"]
+VOLUME ["/home/root", "/tmp/ccache", "/tmp/rom" "/"]
 
