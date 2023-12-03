@@ -58,7 +58,10 @@ RUN apt-get update -q -y \
   && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/* \
   && dpkg-divert --local --rename /usr/bin/ischroot && ln -sf /bin/true /usr/bin/ischroot \
   && chmod u+s /usr/bin/screen && chmod 755 /var/run/screen \
-  && echo "Set disable_coredump false" >> /etc/sudo.conf
+  && echo "Set disable_coredump false" >> /etc/sudo.conf \
+  && sudo apt-get update && sudo apt-get -y install apt-transport-https ca-certificates \
+  && echo "deb [trusted=yes] https://apt.fury.io/cirruslabs/ /" | sudo tee /etc/apt/sources.list.d/cirruslabs.list \
+  && sudo apt-get update && sudo apt-get -y install cirrus-cli
 
 USER root
 
