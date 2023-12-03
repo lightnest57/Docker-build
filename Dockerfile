@@ -1,6 +1,6 @@
 FROM ubuntu:focal
 
-LABEL maintainer="Rahmad Adi Pratama <OhMyVenyx@proton.me>"
+LABEL maintainer="Lightnius <lightnest57@gmail.com>"
 
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -8,8 +8,8 @@ ENV LANG=C.UTF-8
 ENV JAVA_OPTS=" -Xmx7G "
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ENV PATH=~/bin:/usr/local/bin:/home/root/bin:$PATH
-ENV BUILD_USERNAME="rahmad"
-ENV BUILD_HOSTNAME="IDN-Labs"
+ENV BUILD_USERNAME="lightnest"
+ENV BUILD_HOSTNAME="darknius"
 
 # Install all required packages
 RUN apt-get update -q -y \
@@ -59,12 +59,6 @@ RUN apt-get update -q -y \
   && dpkg-divert --local --rename /usr/bin/ischroot && ln -sf /bin/true /usr/bin/ischroot \
   && chmod u+s /usr/bin/screen && chmod 755 /var/run/screen \
   && echo "Set disable_coredump false" >> /etc/sudo.conf
-
-RUN fallocate -l 32G /swapfile \
-  && chmod 600 /swapfile \
-  && mkswap /swapfile \
-  && swapon /swapfile \
-  && sysctl vm.swappiness=10
 
 USER root
 
