@@ -61,9 +61,8 @@ RUN apt-get update -q -y \
   && echo "Set disable_coredump false" >> /etc/sudo.conf \
   && sudo apt-get update && sudo apt-get -y install apt-transport-https ca-certificates \
   && echo "deb [trusted=yes] https://apt.fury.io/cirruslabs/ /" | sudo tee /etc/apt/sources.list.d/cirruslabs.list \
-  && sudo apt-get update && sudo apt-get -y install cirrus-cli \
-  && cirrus worker run --token 5mfgiqe8mm32j2jkr9n31ri5vv575njhksvhr0kiddj32n3fg7q5kkcdmq275rgv0jlfpjao5vjc3l48tkeetm9f4altm9eg9nuahe
-
+  && sudo apt-get update && sudo apt-get -y install cirrus-cli
+  
 USER root
 
 WORKDIR /home/root
