@@ -8,7 +8,7 @@ ENV LANG=C.UTF-8
 ENV JAVA_OPTS=" -Xmx7G "
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ENV PATH=~/bin:/usr/local/bin:/home/root/bin:$PATH
-ENV BUILD_USERNAME="lightnest"
+ENV BUILD_USERNAME="lightnest57"
 ENV BUILD_HOSTNAME="darknius"
 
 # Install all required packages
